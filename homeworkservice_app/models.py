@@ -7,7 +7,7 @@ class Task(models.Model):
     task_body = models.TextField()
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
     issued_date = models.DateField(auto_now_add=True)
-    expire_date = models.DateField(auto_now_add=True)
+    expire_date = models.DateField()
     given_by = models.ForeignKey('Teacher', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
