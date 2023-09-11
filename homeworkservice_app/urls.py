@@ -13,4 +13,10 @@ urlpatterns = [
     path('all-subjects/<int:pk>/', views.SubjectRetrieveAPIView.as_view(), name='subjects-retrieve'),
     path('all-subjects/<int:pk>/update/', views.SubjectUpdateAPIView.as_view(), name='subjects-update'),
     path('all-subjects/<int:pk>/delete/', views.SubjectDestroyAPIView.as_view(), name='subjects-delete'),
+    path('all-teachers/', views.TeacherListAPIView.as_view(), name='all-teachers'),
+    path('all-teachers/create/', views.TeacherCreateAPIView.as_view(), name='teachers-create'),
+    path('all-teachers/<int:pk>/', views.TeacherRetrieveAPIView.as_view(), name='teachers-retrieve'),
+    path('all-teachers/<int:pk>/update/', views.TeacherUpdateAPIView.as_view(), name='teachers-update'),
+    path('all-teachers/<int:pk>/delete/', views.TeacherDestroyAPIView.as_view(), name='teachers-delete'),
+
 ]

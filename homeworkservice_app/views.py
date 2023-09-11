@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, filters
+from rest_framework import generics, filters, status
+from rest_framework.response import Response
 
 from .filters import TaskFilter, SubjectFilter
 from .serializers import *
@@ -61,4 +62,43 @@ class SubjectDestroyAPIView(generics.RetrieveDestroyAPIView):
     serializer_class = SubjectReadableSerializer
 
 
+class TeacherListAPIView(generics.ListAPIView):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherReadableSerializer
+
+
+class TeacherCreateAPIView(generics.CreateAPIView):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherSerializer
+
+
+class TeacherRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherReadableSerializer
+
+
+class TeacherUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherSerializer
+    partial = True
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            # Check if a new profile image was provided
+            profile_image = request.data.get('profile_image')
+            if profile_image:
+                instance.profile_image = profile_image
+                instance.save()
+
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TeacherDestroyAPIView(generics.RetrieveDestroyAPIView):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherReadableSerializer
 

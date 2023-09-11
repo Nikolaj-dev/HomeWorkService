@@ -45,3 +45,22 @@ class SubjectSerializer(serializers.ModelSerializer):
         model = Subject
         fields = '__all__'
 
+
+class TeacherReadableSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.username')
+    profile_image = serializers.CharField(source='profile_image.url')
+
+    class Meta:
+        model = Teacher
+        fields = '__all__'
+
+
+class TeacherSerializer(serializers.ModelSerializer):
+    profile_image = serializers.ImageField(
+        max_length=None, use_url=True, required=False
+    )
+
+    class Meta:
+        model = Teacher
+        fields = '__all__'
+        read_only_fields = ('profile_image',)
