@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics
+from rest_framework import generics, filters
 
-from .filters import TaskFilter
+from .filters import TaskFilter, SubjectFilter
 from .serializers import *
 
 
@@ -35,6 +35,10 @@ class TaskDestroyAPIView(generics.RetrieveDestroyAPIView):
 class SubjectListAPIView(generics.ListAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectReadableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_class = SubjectFilter
+    ordering_fields = '__all__'
+    search_fields = ['title', 'teacher__full_name']
 
 
 class SubjectCreateAPIView(generics.CreateAPIView):
