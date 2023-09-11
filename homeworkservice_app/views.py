@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters, status
 from rest_framework.response import Response
 
-from .filters import TaskFilter, SubjectFilter
+from .filters import TaskFilter, SubjectFilter, TeacherFilter
 from .serializers import *
 
 
@@ -65,7 +65,9 @@ class SubjectDestroyAPIView(generics.RetrieveDestroyAPIView):
 class TeacherListAPIView(generics.ListAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherReadableSerializer
-
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = TeacherFilter
+    ordering_fields = ['full_name',]
 
 class TeacherCreateAPIView(generics.CreateAPIView):
     queryset = Teacher.objects.all()
