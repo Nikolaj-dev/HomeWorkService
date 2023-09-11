@@ -28,3 +28,20 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = '__all__'
+
+
+class SubjectReadableSerializer(serializers.ModelSerializer):
+    teacher = serializers.SlugRelatedField(
+        many=True, queryset=Teacher.objects.all(), slug_field='full_name'
+    )
+
+    class Meta:
+        model = Subject
+        fields = '__all__'
+
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = '__all__'
+

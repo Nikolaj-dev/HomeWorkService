@@ -22,14 +22,39 @@ class TaskRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = TaskReadableSerializer
 
 
+class TaskUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+
 class TaskDestroyAPIView(generics.RetrieveDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskReadableSerializer
 
 
-class TaskUpdateAPIView(generics.RetrieveUpdateAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
+class SubjectListAPIView(generics.ListAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectReadableSerializer
+
+
+class SubjectCreateAPIView(generics.CreateAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+
+
+class SubjectRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectReadableSerializer
+
+
+class SubjectUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+
+
+class SubjectDestroyAPIView(generics.RetrieveDestroyAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectReadableSerializer
 
 
 
