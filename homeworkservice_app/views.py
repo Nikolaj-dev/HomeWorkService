@@ -9,8 +9,9 @@ from .serializers import *
 class TaskListAPIView(generics.ListAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskReadableSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = TaskFilter
+    search_fields = ['theme', ]
 
 
 class TaskCreateAPIView(generics.CreateAPIView):

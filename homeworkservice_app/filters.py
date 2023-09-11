@@ -34,3 +34,4 @@ class TeacherFilter(django_filters.FilterSet):
             'email': ['exact', 'icontains'],
             'phone_number': ['exact', 'icontains'],
         }
+
