@@ -40,3 +40,17 @@ class TeacherAdmin(admin.ModelAdmin):
     search_fields = (
         'full_name',
     )
+
+
+@admin.register(SchoolClass)
+class SchoolClassAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'class_teacher',
+    )
+    search_fields = (
+        'title',
+    )
+    list_filter = (
+        'class_teacher',
+    )

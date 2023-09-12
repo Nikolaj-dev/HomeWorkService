@@ -9,6 +9,7 @@ class Task(models.Model):
     issued_date = models.DateField(auto_now_add=True)
     expire_date = models.DateField()
     given_by = models.ForeignKey('Teacher', on_delete=models.SET_NULL, null=True)
+    school_class = models.ManyToManyField('SchoolClass')
 
     def __str__(self):
         return self.theme
@@ -31,4 +32,14 @@ class Teacher(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+class SchoolClass(models.Model):
+    title = models.CharField(max_length=64)
+    class_teacher = models.ForeignKey('Teacher', on_delete=models.SET_NULL, null=True, blank=True)
+    subjects = models.ManyToManyField('Subject', blank=True)
+
+    def __str__(self):
+        return self.title
+
 

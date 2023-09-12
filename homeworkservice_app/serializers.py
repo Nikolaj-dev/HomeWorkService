@@ -7,6 +7,9 @@ class TaskReadableSerializer(serializers.ModelSerializer):
     given_by = serializers.CharField(source='given_by.full_name')
     formatted_issued_date = serializers.SerializerMethodField()
     formatted_expire_date = serializers.SerializerMethodField()
+    school_class = serializers.SlugRelatedField(
+        many=True, queryset=SchoolClass.objects.all(), slug_field='title'
+    )
 
     class Meta:
         model = Task

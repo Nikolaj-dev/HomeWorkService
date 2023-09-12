@@ -11,7 +11,7 @@ class TaskListAPIView(generics.ListAPIView):
     serializer_class = TaskReadableSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = TaskFilter
-    search_fields = ['theme', ]
+    search_fields = ['theme', 'school_class__title']
 
 
 class TaskCreateAPIView(generics.CreateAPIView):
@@ -104,4 +104,5 @@ class TeacherUpdateAPIView(generics.RetrieveUpdateAPIView):
 class TeacherDestroyAPIView(generics.RetrieveDestroyAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherReadableSerializer
+
 
