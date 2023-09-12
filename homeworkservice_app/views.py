@@ -55,7 +55,7 @@ class SubjectRetrieveAPIView(generics.RetrieveAPIView):
 
 class SubjectUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Subject.objects.all()
-    serializer_class = SubjectSerializer
+    serializer_class = SubjectReadableSerializer
 
 
 class SubjectDestroyAPIView(generics.RetrieveDestroyAPIView):
@@ -69,6 +69,7 @@ class TeacherListAPIView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_class = TeacherFilter
     ordering_fields = ['full_name',]
+
 
 class TeacherCreateAPIView(generics.CreateAPIView):
     queryset = Teacher.objects.all()
@@ -105,4 +106,28 @@ class TeacherDestroyAPIView(generics.RetrieveDestroyAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherReadableSerializer
 
+
+class SchoolClassListAPIView(generics.ListAPIView):
+    queryset = SchoolClass.objects.all()
+    serializer_class = SchoolClassReadableSerializer
+
+
+class SchoolClassCreateAPIView(generics.CreateAPIView):
+    queryset = SchoolClass.objects.all()
+    serializer_class = SchoolClassSerializer
+
+
+class SchoolClassRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = SchoolClass.objects.all()
+    serializer_class = SchoolClassReadableSerializer
+
+
+class SchoolClassUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = SchoolClass.objects.all()
+    serializer_class = SchoolClassReadableSerializer
+
+
+class SchoolClassDestroyAPIView(generics.RetrieveDestroyAPIView):
+    queryset = SchoolClass.objects.all()
+    serializer_class = SchoolClassReadableSerializer
 

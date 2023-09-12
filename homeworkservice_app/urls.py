@@ -18,4 +18,10 @@ urlpatterns = [
     path('all-teachers/<int:pk>/', views.TeacherRetrieveAPIView.as_view(), name='teachers-retrieve'),
     path('all-teachers/<int:pk>/update/', views.TeacherUpdateAPIView.as_view(), name='teachers-update'),
     path('all-teachers/<int:pk>/delete/', views.TeacherDestroyAPIView.as_view(), name='teachers-delete'),
+    path('all-school-classes/', views.SchoolClassListAPIView.as_view(), name='all-school-classes'),
+    path('all-school-classes/create/', views.SchoolClassCreateAPIView.as_view(), name='school-classes-create'),
+    path('all-school-classes/<int:pk>/', views.SchoolClassRetrieveAPIView.as_view(), name='school-classes-retrieve'),
+    path('all-school-classes/<int:pk>/update/', views.SchoolClassUpdateAPIView.as_view(), name='school-classes-update'),
+    path('all-school-classes/<int:pk>/delete/', views.SchoolClassDestroyAPIView.as_view(), name='school-classes-delete'),
+
 ]

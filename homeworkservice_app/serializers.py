@@ -67,3 +67,20 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = Teacher
         fields = '__all__'
         read_only_fields = ('profile_image',)
+
+
+class SchoolClassReadableSerializer(serializers.ModelSerializer):
+    class_teacher = serializers.CharField(source='class_teacher.full_name')
+    subjects = serializers.SlugRelatedField(
+        many=True, queryset=Subject.objects.all(), slug_field='title'
+    )
+
+    class Meta:
+        model = SchoolClass
+        fields = '__all__'
+
+
+class SchoolClassSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SchoolClass
+        fields = '__all__'
