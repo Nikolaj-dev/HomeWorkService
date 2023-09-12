@@ -2,7 +2,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters, status
 from rest_framework.response import Response
 
-from .filters import TaskFilter, SubjectFilter, TeacherFilter
+from .filters import TaskFilter, SubjectFilter, TeacherFilter, SchoolClassFilter
 from .serializers import *
 
 
@@ -110,6 +110,10 @@ class TeacherDestroyAPIView(generics.RetrieveDestroyAPIView):
 class SchoolClassListAPIView(generics.ListAPIView):
     queryset = SchoolClass.objects.all()
     serializer_class = SchoolClassReadableSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filterset_class = SchoolClassFilter
+    ordering_fields = ['title', ]
+    search_fields = ['title', ]
 
 
 class SchoolClassCreateAPIView(generics.CreateAPIView):

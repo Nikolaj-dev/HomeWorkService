@@ -1,5 +1,5 @@
 import django_filters
-from .models import Task, Subject, Teacher
+from .models import Task, Subject, Teacher, SchoolClass
 
 
 class TaskFilter(django_filters.FilterSet):
@@ -35,3 +35,11 @@ class TeacherFilter(django_filters.FilterSet):
             'phone_number': ['exact', 'icontains'],
         }
 
+
+class SchoolClassFilter(django_filters.FilterSet):
+    class Meta:
+        model = SchoolClass
+        fields = {
+            'class_teacher__full_name': ['exact'],
+            'subjects__title': ['icontains'],
+        }
