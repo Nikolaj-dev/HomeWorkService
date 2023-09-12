@@ -30,8 +30,20 @@ class TaskReadableSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = '__all__'
+        exclude = ('given_by', )
 
+    def create(self, validated_data):
+        user = self.context['request'].user
+        given_by = Teacher.objects.get(user=user)
+        school_classes = validated_data.pop('school_class', [])  # Извлекаем классы из validated_data
+
+        # Создаем задачу без полей school_class
+        task = Task.objects.create(given_by=given_by, **validated_data)
+
+        # Устанавливаем классы для задачи
+        task.school_class.set(school_classes)
+
+        return task
 
 class SubjectReadableSerializer(serializers.ModelSerializer):
     teacher = serializers.SlugRelatedField(
