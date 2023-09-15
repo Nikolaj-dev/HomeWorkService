@@ -156,3 +156,19 @@ class TeacherProfileAPIView(APIView):
             return Response({'detail': 'Teacher profile not found.'}, status=status.HTTP_404_NOT_FOUND)
 
 
+class TeacherMySchoolClassesAPI(generics.RetrieveAPIView):
+    serializer_class = TeacherSchoolClassesSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        # Retrieve the Teacher object associated with the current user
+        return Teacher.objects.get(user=self.request.user)
+
+    def get(self, request):
+        teacher = self.get_object()
+
+        # Access the available_school_classes field directly from the teacher object
+        available_school_classes = teacher.available_school_classes.all()
+
+        serializer = self.serializer_class({'available_school_classes': available_school_classes})
+        return Response(serializer.data, status=status.HTTP_200_OK)

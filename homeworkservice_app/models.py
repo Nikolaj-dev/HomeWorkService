@@ -29,6 +29,7 @@ class Teacher(models.Model):
     profile_image = models.ImageField(upload_to='teacher_profile_images/', null=True, blank=True)
     phone_number = models.CharField(max_length=12, null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
+    available_school_classes = models.ManyToManyField('SchoolClass')
 
     def __str__(self):
         return self.full_name

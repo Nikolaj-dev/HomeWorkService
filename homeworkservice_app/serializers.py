@@ -45,6 +45,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
         return task
 
+
 class SubjectReadableSerializer(serializers.ModelSerializer):
     teacher = serializers.SlugRelatedField(
         many=True, queryset=Teacher.objects.all(), slug_field='full_name'
@@ -64,6 +65,9 @@ class SubjectSerializer(serializers.ModelSerializer):
 class TeacherReadableSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.username')
     profile_image = serializers.CharField(source='profile_image.url')
+    available_school_classes = serializers.SlugRelatedField(
+        many=True, queryset=SchoolClass.objects.all(), slug_field='title'
+    )
 
     class Meta:
         model = Teacher
@@ -79,6 +83,16 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = Teacher
         fields = '__all__'
         read_only_fields = ('profile_image',)
+
+
+class TeacherSchoolClassesSerializer(serializers.ModelSerializer):
+    available_school_classes = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field='title'
+    )
+
+    class Meta:
+        model = Teacher
+        fields = ['available_school_classes']
 
 
 class SchoolClassReadableSerializer(serializers.ModelSerializer):
