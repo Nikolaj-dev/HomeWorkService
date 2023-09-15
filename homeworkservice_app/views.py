@@ -1,12 +1,16 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters, status
 from rest_framework.response import Response
-
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .filters import TaskFilter, SubjectFilter, TeacherFilter, SchoolClassFilter
 from .serializers import *
+from rest_framework.views import APIView
 
 
 class TaskListAPIView(generics.ListAPIView):
+    # authentication_classes = [JWTAuthentication, ]
+    # permission_classes = [IsAuthenticated, ]
     queryset = Task.objects.all()
     serializer_class = TaskReadableSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
@@ -134,4 +138,21 @@ class SchoolClassUpdateAPIView(generics.RetrieveUpdateAPIView):
 class SchoolClassDestroyAPIView(generics.RetrieveDestroyAPIView):
     queryset = SchoolClass.objects.all()
     serializer_class = SchoolClassReadableSerializer
+
+
+class TeacherProfileAPIView(APIView):
+    serializer_class = TeacherReadableSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # Get the user's teacher profile
+        teacher_profile = Teacher.objects.filter(user=request.user).first()
+
+        if teacher_profile:
+            # Serialize the teacher profile data
+            serializer = self.serializer_class(teacher_profile)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'Teacher profile not found.'}, status=status.HTTP_404_NOT_FOUND)
+
 
