@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from .models import Subject
+from .models import Subject, SchoolClass
 
 
 class IsTeacherPermission(permissions.BasePermission):
@@ -42,3 +42,14 @@ class IsTaskOwner(permissions.BasePermission):
             return obj.given_by == teacher
 
         return False
+
+
+class IsSchoolClassHasSubject(permissions.BasePermission):
+    def has_permission(self, request, view):
+        school_class = request.data.get("school_class_title")
+        subject_title = request.data.get("subject_title")
+        if SchoolClass.objects.filter(title=school_class, subjects__title=subject_title).exists():
+            return True
+
+        return False
+
