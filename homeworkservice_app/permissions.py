@@ -31,3 +31,14 @@ class IsTeacherAssociatedWithSubject(permissions.BasePermission):
                     return True
 
         return False
+
+
+class IsTaskOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+
+        if request.user.is_authenticated and hasattr(request.user, 'teacher'):
+            teacher = request.user.teacher
+
+            return obj.given_by == teacher
+
+        return False

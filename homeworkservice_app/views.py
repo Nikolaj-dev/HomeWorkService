@@ -31,6 +31,7 @@ class TaskRetrieveAPIView(generics.RetrieveAPIView):
 class TaskUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+    permission_classes = [permissions.IsTaskOwner]
 
 
 class TaskDestroyAPIView(generics.RetrieveDestroyAPIView):
@@ -156,7 +157,7 @@ class TeacherProfileAPIView(APIView):
             return Response({'detail': 'Teacher profile not found.'}, status=status.HTTP_404_NOT_FOUND)
 
 
-class TeacherMySchoolClassesAPIView(generics.RetrieveAPIView):
+class TeacherMySchoolClassesListAPIView(generics.RetrieveAPIView):
     serializer_class = TeacherSchoolClassesSerializer
     permission_classes = [IsAuthenticated]
 
@@ -174,7 +175,7 @@ class TeacherMySchoolClassesAPIView(generics.RetrieveAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class TeacherMySubjectsAPIView(generics.ListAPIView):
+class TeacherMySubjectListAPIView(generics.ListAPIView):
     serializer_class = TeacherSubjectsSerializer
 
     def get_queryset(self):
@@ -183,11 +184,14 @@ class TeacherMySubjectsAPIView(generics.ListAPIView):
         return subjects
 
 
-class TeacherMyTasksAPIView(generics.ListAPIView):
+class TeacherMyTaskListAPIView(generics.ListAPIView):
     serializer_class = TaskReadableSerializer
 
     def get_queryset(self):
         teacher = Teacher.objects.filter(user=self.request.user).first()
         tasks = Task.objects.filter(given_by=teacher).all()
         return tasks
+
+
+
 

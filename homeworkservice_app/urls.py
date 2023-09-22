@@ -24,7 +24,7 @@ urlpatterns = [
     path('all-school-classes/<int:pk>/update/', views.SchoolClassUpdateAPIView.as_view(), name='school-classes-update'),
     path('all-school-classes/<int:pk>/delete/', views.SchoolClassDestroyAPIView.as_view(), name='school-classes-delete'),
     path('staff/teacher/', views.TeacherProfileAPIView.as_view(), name='teacher-profile'),
-    path('staff/teacher/my-classes/', views.TeacherMySchoolClassesAPIView.as_view(), name='teacher-school-classes'),
-    path('staff/teacher/my-subjects/', views.TeacherMySubjectsAPIView.as_view(), name='teacher-subjects'),
-    path('staff/teacher/my-tasks/', views.TeacherMyTasksAPIView.as_view(), name='teacher-tasks'),
+    path('staff/teacher/my-classes/', views.TeacherMySchoolClassesListAPIView.as_view(), name='teacher-school-classes'),
+    path('staff/teacher/my-subjects/', views.TeacherMySubjectListAPIView.as_view(), name='teacher-subjects'),
+    path('staff/teacher/my-tasks/', views.TeacherMyTaskListAPIView.as_view(), name='teacher-tasks'),
 ]
