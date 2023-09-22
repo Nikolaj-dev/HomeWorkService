@@ -26,4 +26,5 @@ urlpatterns = [
     path('staff/teacher/', views.TeacherProfileAPIView.as_view(), name='teacher-profile'),
     path('staff/teacher/my-classes/', views.TeacherMySchoolClassesAPIView.as_view(), name='teacher-school-classes'),
     path('staff/teacher/my-subjects/', views.TeacherMySubjectsAPIView.as_view(), name='teacher-subjects'),
+    path('staff/teacher/my-tasks/', views.TeacherMyTasksAPIView.as_view(), name='teacher-tasks'),
 ]

@@ -181,3 +181,13 @@ class TeacherMySubjectsAPIView(generics.ListAPIView):
         teacher = Teacher.objects.filter(user=self.request.user).first()
         subjects = Subject.objects.filter(teacher=teacher).all()
         return subjects
+
+
+class TeacherMyTasksAPIView(generics.ListAPIView):
+    serializer_class = TaskReadableSerializer
+
+    def get_queryset(self):
+        teacher = Teacher.objects.filter(user=self.request.user).first()
+        tasks = Task.objects.filter(given_by=teacher).all()
+        return tasks
+

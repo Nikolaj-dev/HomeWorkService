@@ -121,6 +121,12 @@ class TeacherSubjectsSerializer(serializers.ModelSerializer):
         fields = ['title']
 
 
+# class TeacherTasksSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Task
+#         fields = []
+
+
 class SchoolClassReadableSerializer(serializers.ModelSerializer):
     class_teacher = serializers.CharField(source='class_teacher.full_name')
     subjects = serializers.SlugRelatedField(
