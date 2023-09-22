@@ -26,6 +26,7 @@ class TaskCreateAPIView(generics.CreateAPIView):
 class TaskRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskReadableSerializer
+    permission_classes = [permissions.IsTaskOwner]
 
 
 class TaskUpdateAPIView(generics.RetrieveUpdateAPIView):
@@ -37,6 +38,7 @@ class TaskUpdateAPIView(generics.RetrieveUpdateAPIView):
 class TaskDestroyAPIView(generics.RetrieveDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskReadableSerializer
+    permission_classes = [permissions.IsTaskOwner]
 
 
 class SubjectListAPIView(generics.ListAPIView):
