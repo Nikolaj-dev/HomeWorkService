@@ -18,7 +18,7 @@ class TaskListAPIView(generics.ListAPIView):
 
 
 class TaskCreateAPIView(generics.CreateAPIView):
-    permission_classes = [permissions.IsTeacherPermission]
+    permission_classes = [permissions.IsTeacherPermission, permissions.IsTeacherOfClass, permissions.IsTeacherAssociatedWithSubject]
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
