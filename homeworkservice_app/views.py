@@ -2,15 +2,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters, status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from .filters import TaskFilter, SubjectFilter, TeacherFilter, SchoolClassFilter
 from .serializers import *
 from rest_framework.views import APIView
+from . import permissions
 
 
 class TaskListAPIView(generics.ListAPIView):
-    # authentication_classes = [JWTAuthentication, ]
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated]
     queryset = Task.objects.all()
     serializer_class = TaskReadableSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
@@ -19,6 +18,7 @@ class TaskListAPIView(generics.ListAPIView):
 
 
 class TaskCreateAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.IsTeacherPermission]
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 

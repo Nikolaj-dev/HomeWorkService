@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import *
+from rest_framework import status
+from rest_framework.exceptions import NotFound
 
 
 class TaskReadableSerializer(serializers.ModelSerializer):
@@ -28,19 +30,37 @@ class TaskReadableSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    subject_title = serializers.CharField(write_only=True, required=False)
+    school_class_title = serializers.CharField(write_only=True, required=False)
+
     class Meta:
         model = Task
-        exclude = ('given_by', )
+        exclude = ('given_by', 'subject', 'school_class')
 
     def create(self, validated_data):
         user = self.context['request'].user
         given_by = Teacher.objects.get(user=user)
-        school_classes = validated_data.pop('school_class', [])  # Извлекаем классы из validated_data
+        school_classes = validated_data.pop('school_class', [])
 
-        # Создаем задачу без полей school_class
+        # Проверяем, был ли предоставлен subject_title
+        subject_title = validated_data.pop('subject_title', None)
+        if subject_title:
+            try:
+                subject = Subject.objects.get(title=subject_title)
+                validated_data['subject'] = subject
+            except Subject.DoesNotExist:
+                raise NotFound(detail=f"Subject with title '{subject_title}' not found.", code=status.HTTP_404_NOT_FOUND)
+
+        # Проверяем, был ли предоставлен school_class_title
+        school_class_title = validated_data.pop('school_class_title', None)
+        if school_class_title:
+            try:
+                school_class = SchoolClass.objects.get(title=school_class_title)
+                school_classes.append(school_class)
+            except SchoolClass.DoesNotExist:
+                raise NotFound(detail=f"SchoolClass with title '{school_class_title}' not found.", code=status.HTTP_404_NOT_FOUND)
+
         task = Task.objects.create(given_by=given_by, **validated_data)
-
-        # Устанавливаем классы для задачи
         task.school_class.set(school_classes)
 
         return task
